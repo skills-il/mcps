@@ -1,34 +1,30 @@
 /**
  * TASE Data Hub API Client
  *
- * Wraps the official TASE API with authentication, rate limiting, and error handling.
- * API docs: https://openapi.tase.co.il/tase/prod/
+ * Wraps the official TASE Data Hub API (https://datahubapi.tase.co.il) with
+ * authentication, rate limiting, and error handling.
+ *
+ * Data requests go to the datawise.tase.co.il gateway. Your apikey header is
+ * scoped to the specific products you've registered for in the developer portal.
  */
 
-// Base URL from the official TASE Data Hub API Guide PDF (curl example on page 7).
-// The "tst" in the subdomain appears in the official docs; may be test or production.
-// Update if TASE publishes a different production URL.
-const BASE_URL = "https://datawisetst.tase.co.il";
+const BASE_URL = process.env.TASE_BASE_URL ?? "https://datawise.tase.co.il";
 
-// Simple sliding window rate limiter: max 5 requests per second (conservative; official limit is 10/2s)
+// TASE's published limit is 10 req / 2s. We cap at 5 req / 1s for a safety margin.
 const MAX_REQUESTS = 5;
 const WINDOW_MS = 1000;
 const timestamps: number[] = [];
 
 async function rateLimit(): Promise<void> {
   const now = Date.now();
-
-  // Remove timestamps outside the window
   while (timestamps.length > 0 && timestamps[0]! <= now - WINDOW_MS) {
     timestamps.shift();
   }
-
   if (timestamps.length >= MAX_REQUESTS) {
     const oldest = timestamps[0]!;
     const waitMs = oldest + WINDOW_MS - now;
     await new Promise((resolve) => setTimeout(resolve, waitMs));
   }
-
   timestamps.push(Date.now());
 }
 
@@ -36,7 +32,7 @@ function getApiKey(): string {
   const key = process.env.TASE_API_KEY;
   if (!key) {
     throw new Error(
-      "TASE_API_KEY not set. Get your API key at https://openapi.tase.co.il/tase/prod/"
+      "TASE_API_KEY not set. Sign in at https://datahubapi.tase.co.il, create an application, and copy its apikey."
     );
   }
   return key;
@@ -87,15 +83,23 @@ async function get(
     return {
       ok: false,
       error:
-        "TASE API rate limit exceeded. Wait a few seconds and try again.",
+        "TASE API rate limit exceeded (max 10 requests per 2 seconds). Wait a moment and retry.",
     };
   }
 
-  if (response.status === 401 || response.status === 403) {
+  if (response.status === 401) {
     return {
       ok: false,
       error:
-        "TASE API key is invalid or expired. Check your TASE_API_KEY.",
+        "TASE API key is invalid or missing. Check TASE_API_KEY.",
+    };
+  }
+
+  if (response.status === 403) {
+    return {
+      ok: false,
+      error:
+        `TASE API returned 403 for ${path}. Your apikey is not registered for this product, or the request was blocked by TASE's WAF. Subscribe to the product at https://datahubapi.tase.co.il and use an approved subscription.`,
     };
   }
 
@@ -104,14 +108,6 @@ async function get(
       ok: false,
       error:
         "TASE API is currently unavailable. Trading hours: Sunday-Thursday 9:30-17:00 Israel time.",
-    };
-  }
-
-  if (response.status === 404) {
-    return {
-      ok: false,
-      error:
-        "TASE API endpoint not found (404). This tool may use an estimated endpoint path. Check https://openapi.tase.co.il for the current API reference.",
     };
   }
 
