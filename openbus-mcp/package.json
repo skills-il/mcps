@@ -1,5 +1,5 @@
 {
-  "name": "openbus-mcp",
+  "name": "@skills-il/openbus-mcp",
   "version": "1.0.0",
   "description": "MCP server wrapping the Open Bus Stride API by Hasadna - Israeli public transit data",
   "type": "module",
@@ -8,8 +8,8 @@
   },
   "scripts": {
     "build": "tsc",
-    "prepare": "npm run build",
-    "start": "node dist/index.js"
+    "start": "node dist/index.js",
+    "prepublishOnly": "npm run build"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.12.1",
@@ -19,5 +19,17 @@
     "typescript": "^5.8.3",
     "@types/node": "^22.15.3"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/skills-il/mcps.git",
+    "directory": "openbus-mcp"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ]
 }

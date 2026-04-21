@@ -2,6 +2,33 @@
 
 An MCP (Model Context Protocol) server providing real-time flight arrivals and departures at Ben Gurion Airport (TLV). Data comes from the official Israel Airports Authority feed published on data.gov.il, updated every 15 minutes.
 
+## Install
+
+```bash
+npx -y @skills-il/ben-gurion-flights-mcp
+```
+
+### Claude Desktop
+
+Add to `claude_desktop_config.json`:
+
+```json
+{
+  "mcpServers": {
+    "ben-gurion-flights": {
+      "command": "npx",
+      "args": ["-y", "@skills-il/ben-gurion-flights-mcp"]
+    }
+  }
+}
+```
+
+### Claude Code
+
+```bash
+claude mcp add ben-gurion-flights npx -- -y @skills-il/ben-gurion-flights-mcp
+```
+
 ## Tools
 
 | Tool | Description |
@@ -30,8 +57,8 @@ An MCP (Model Context Protocol) server providing real-time flight arrivals and d
 ### Manual installation
 
 ```bash
-git clone https://github.com/skills-il/ben-gurion-flights-mcp.git
-cd ben-gurion-flights-mcp
+git clone https://github.com/skills-il/mcps.git
+cd mcps/ben-gurion-flights-mcp
 npm install
 npm run build
 ```
@@ -42,8 +69,7 @@ Then add to your MCP client config:
 {
   "mcpServers": {
     "ben-gurion-flights": {
-      "command": "node",
-      "args": ["/path/to/ben-gurion-flights-mcp/dist/index.js"]
+      "command": "npx", "args": ["-y", "@skills-il/ben-gurion-flights-mcp"]
     }
   }
 }

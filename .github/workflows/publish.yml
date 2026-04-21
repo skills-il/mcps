@@ -1,0 +1,86 @@
+# Publishes a single MCP package to npm when a tag matching <slug>-mcp-v<semver> is pushed.
+# Example: tag `israel-hiking-mcp-v1.0.0` -> publishes @skills-il/israel-hiking-mcp@1.0.0.
+# The slug parsed from the tag must match an existing subdirectory.
+
+name: Publish MCP
+
+on:
+  push:
+    tags:
+      - '*-mcp-v*'
+
+permissions:
+  contents: read
+  id-token: write  # Required for npm provenance via Sigstore
+
+concurrency:
+  group: publish-${{ github.ref_name }}
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Parse tag
+        id: tag
+        run: |
+          TAG="${GITHUB_REF_NAME}"
+          # Strip trailing "-v<semver>" to get the slug.
+          SLUG="${TAG%-v*}"
+          VERSION="${TAG##*-v}"
+          if [ ! -d "$SLUG" ]; then
+            echo "::error::Tag $TAG references slug '$SLUG' but no such directory exists."
+            exit 1
+          fi
+          if [ ! -f "$SLUG/package.json" ]; then
+            echo "::error::Subdirectory '$SLUG' is missing package.json."
+            exit 1
+          fi
+          PKG_VERSION=$(node -p "require('./${SLUG}/package.json').version")
+          if [ "$PKG_VERSION" != "$VERSION" ]; then
+            echo "::error::Tag version $VERSION does not match package.json version $PKG_VERSION in $SLUG."
+            exit 1
+          fi
+          PKG_NAME=$(node -p "require('./${SLUG}/package.json').name")
+          echo "slug=$SLUG"        | tee -a "$GITHUB_OUTPUT"
+          echo "version=$VERSION"  | tee -a "$GITHUB_OUTPUT"
+          echo "pkg_name=$PKG_NAME" | tee -a "$GITHUB_OUTPUT"
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          registry-url: 'https://registry.npmjs.org'
+          cache: 'npm'
+          cache-dependency-path: ${{ steps.tag.outputs.slug }}/package-lock.json
+
+      - name: Install
+        working-directory: ${{ steps.tag.outputs.slug }}
+        run: |
+          if [ -f package-lock.json ]; then
+            npm ci
+          else
+            npm install --no-audit --no-fund
+          fi
+
+      - name: Build
+        working-directory: ${{ steps.tag.outputs.slug }}
+        run: npm run build
+
+      - name: Publish to npm
+        working-directory: ${{ steps.tag.outputs.slug }}
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npm publish --provenance --access public
+
+      - name: Summary
+        run: |
+          {
+            echo "### Published"
+            echo ""
+            echo "- **Package:** \`${{ steps.tag.outputs.pkg_name }}\`"
+            echo "- **Version:** \`${{ steps.tag.outputs.version }}\`"
+            echo "- **Tag:** \`${{ github.ref_name }}\`"
+            echo "- **npm:** https://www.npmjs.com/package/${{ steps.tag.outputs.pkg_name }}"
+          } >> "$GITHUB_STEP_SUMMARY"

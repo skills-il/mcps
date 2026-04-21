@@ -4,6 +4,33 @@ An MCP (Model Context Protocol) server that wraps the [Israel Hiking Map](https:
 
 The Israel Hiking Map is an open-source project built on OpenStreetMap data, maintained by the Israeli hiking community.
 
+## Install
+
+```bash
+npx -y @skills-il/israel-hiking-mcp
+```
+
+### Claude Desktop
+
+Add to `claude_desktop_config.json`:
+
+```json
+{
+  "mcpServers": {
+    "israel-hiking": {
+      "command": "npx",
+      "args": ["-y", "@skills-il/israel-hiking-mcp"]
+    }
+  }
+}
+```
+
+### Claude Code
+
+```bash
+claude mcp add israel-hiking npx -- -y @skills-il/israel-hiking-mcp
+```
+
 ## Tools
 
 ### search_pois
@@ -50,35 +77,14 @@ Convert coordinates between Israel Transverse Mercator (ITM) and WGS84 coordinat
 - `x` (number, required) - For ITM to WGS84: Easting. For WGS84 to ITM: Latitude.
 - `y` (number, required) - For ITM to WGS84: Northing. For WGS84 to ITM: Longitude.
 
-## Setup
-
-### Install
+## Local development
 
 ```bash
 npm install
 npm run build
 ```
 
-### Configure with Claude Desktop
-
-Add to your Claude Desktop config (`claude_desktop_config.json`):
-
-```json
-{
-  "mcpServers": {
-    "israel-hiking": {
-      "command": "node",
-      "args": ["/path/to/israel-hiking-mcp/dist/index.js"]
-    }
-  }
-}
-```
-
-### Configure with Claude Code
-
-```bash
-claude mcp add israel-hiking node /path/to/israel-hiking-mcp/dist/index.js
-```
+See "## Install" above for the production install command and Claude Desktop / Claude Code configuration.
 
 ## API Source
 

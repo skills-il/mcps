@@ -1,5 +1,5 @@
 {
-  "name": "israel-elections-mcp",
+  "name": "@skills-il/israel-elections-mcp",
   "version": "1.0.0",
   "description": "MCP server for Israeli Knesset election results from data.gov.il",
   "type": "module",
@@ -10,8 +10,8 @@
   "scripts": {
     "start": "node dist/index.js",
     "build": "tsc",
-    "prepare": "npm run build",
-    "clean": "rm -rf dist"
+    "clean": "rm -rf dist",
+    "prepublishOnly": "npm run build"
   },
   "engines": {
     "node": ">=18"
@@ -32,5 +32,17 @@
   "devDependencies": {
     "@types/node": "^22.10.0",
     "typescript": "^5.7.2"
-  }
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/skills-il/mcps.git",
+    "directory": "israel-elections-mcp"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ]
 }

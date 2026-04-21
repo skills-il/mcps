@@ -2,6 +2,33 @@
 
 An MCP (Model Context Protocol) server that wraps the [Open Bus Stride API](https://open-bus-stride-api.hasadna.org.il/docs) by [The Public Knowledge Workshop (Hasadna)](https://www.hasadna.org.il/). Provides AI agents with access to Israeli public transit data including real-time arrivals, ride performance, routes, stops, timetables, vehicle locations, and transit agencies.
 
+## Install
+
+```bash
+npx -y @skills-il/openbus-mcp
+```
+
+### Claude Desktop
+
+Add to `claude_desktop_config.json`:
+
+```json
+{
+  "mcpServers": {
+    "openbus": {
+      "command": "npx",
+      "args": ["-y", "@skills-il/openbus-mcp"]
+    }
+  }
+}
+```
+
+### Claude Code
+
+```bash
+claude mcp add openbus npx -- -y @skills-il/openbus-mcp
+```
+
 ## Features
 
 - 7 tools covering the core Open Bus Stride API endpoints
@@ -27,7 +54,7 @@ An MCP (Model Context Protocol) server that wraps the [Open Bus Stride API](http
 ### Claude Code
 
 ```bash
-claude mcp add openbus-mcp -- node /path/to/openbus-mcp/dist/index.js
+claude mcp add openbus npx -- -y @skills-il/openbus-mcp
 ```
 
 ### Claude Desktop
@@ -38,8 +65,7 @@ Add to your `claude_desktop_config.json`:
 {
   "mcpServers": {
     "openbus-mcp": {
-      "command": "node",
-      "args": ["/path/to/openbus-mcp/dist/index.js"]
+      "command": "npx", "args": ["-y", "@skills-il/openbus-mcp"]
     }
   }
 }
@@ -53,8 +79,7 @@ Add to your `.cursor/mcp.json`:
 {
   "mcpServers": {
     "openbus-mcp": {
-      "command": "node",
-      "args": ["/path/to/openbus-mcp/dist/index.js"]
+      "command": "npx", "args": ["-y", "@skills-il/openbus-mcp"]
     }
   }
 }

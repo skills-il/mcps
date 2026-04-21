@@ -2,6 +2,33 @@
 
 MCP server for [Kolzchut (All-Rights / כל-זכות)](https://www.kolzchut.org.il), Israel's authoritative knowledge base for rights and entitlements. Provides AI agents with access to thousands of structured articles covering rights for new immigrants (olim), tax benefits, housing, health insurance, employment, disability, elderly care, and more.
 
+## Install
+
+```bash
+npx -y @skills-il/kolzchut-mcp
+```
+
+### Claude Desktop
+
+Add to `claude_desktop_config.json`:
+
+```json
+{
+  "mcpServers": {
+    "kolzchut": {
+      "command": "npx",
+      "args": ["-y", "@skills-il/kolzchut-mcp"]
+    }
+  }
+}
+```
+
+### Claude Code
+
+```bash
+claude mcp add kolzchut npx -- -y @skills-il/kolzchut-mcp
+```
+
 ## Features
 
 - **Full-text search** across all Kolzchut rights articles in Hebrew and English
@@ -38,8 +65,7 @@ Add to your MCP configuration:
 {
   "mcpServers": {
     "kolzchut": {
-      "command": "node",
-      "args": ["/path/to/kolzchut-mcp/dist/index.js"]
+      "command": "npx", "args": ["-y", "@skills-il/kolzchut-mcp"]
     }
   }
 }

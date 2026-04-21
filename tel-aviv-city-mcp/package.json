@@ -1,5 +1,5 @@
 {
-  "name": "tel-aviv-city-mcp",
+  "name": "@skills-il/tel-aviv-city-mcp",
   "version": "1.0.0",
   "description": "MCP server wrapping Tel Aviv Municipality open data APIs (ArcGIS REST services)",
   "license": "MIT",
@@ -9,9 +9,9 @@
   },
   "scripts": {
     "build": "tsc",
-    "prepare": "npm run build",
     "start": "node dist/index.js",
-    "dev": "tsc --watch"
+    "dev": "tsc --watch",
+    "prepublishOnly": "npm run build"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.28.0",
@@ -20,5 +20,17 @@
   "devDependencies": {
     "@types/node": "^22.0.0",
     "typescript": "^5.8.0"
-  }
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/skills-il/mcps.git",
+    "directory": "tel-aviv-city-mcp"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ]
 }

@@ -4,6 +4,33 @@ An MCP (Model Context Protocol) server that searches active and completed clinic
 
 > **Disclaimer**: This tool is for informational purposes only and does not constitute medical advice. Clinical trial information may change frequently. Always consult qualified healthcare providers before making any medical decisions, including decisions about participating in clinical trials.
 
+## Install
+
+```bash
+npx -y @skills-il/israel-clinical-trials-mcp
+```
+
+### Claude Desktop
+
+Add to `claude_desktop_config.json`:
+
+```json
+{
+  "mcpServers": {
+    "israel-clinical-trials": {
+      "command": "npx",
+      "args": ["-y", "@skills-il/israel-clinical-trials-mcp"]
+    }
+  }
+}
+```
+
+### Claude Code
+
+```bash
+claude mcp add israel-clinical-trials npx -- -y @skills-il/israel-clinical-trials-mcp
+```
+
 ## Tools
 
 | Tool | Description |
@@ -29,8 +56,7 @@ Add to your Claude Desktop configuration (`claude_desktop_config.json`):
 {
   "mcpServers": {
     "israel-clinical-trials": {
-      "command": "node",
-      "args": ["/path/to/israel-clinical-trials-mcp/dist/index.js"]
+      "command": "npx", "args": ["-y", "@skills-il/israel-clinical-trials-mcp"]
     }
   }
 }
@@ -39,7 +65,7 @@ Add to your Claude Desktop configuration (`claude_desktop_config.json`):
 ## Usage with Claude Code
 
 ```bash
-claude mcp add israel-clinical-trials node /path/to/israel-clinical-trials-mcp/dist/index.js
+claude mcp add israel-clinical-trials npx -- -y @skills-il/israel-clinical-trials-mcp
 ```
 
 ## Example Queries

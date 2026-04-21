@@ -1,5 +1,5 @@
 {
-  "name": "israel-nutrition-mcp",
+  "name": "@skills-il/israel-nutrition-mcp",
   "version": "1.0.0",
   "description": "MCP server for Israel's National Nutrition Database (Tzameret) - 4,500+ foods with 74 nutritional components",
   "license": "MIT",
@@ -8,12 +8,13 @@
     "israel-nutrition-mcp": "dist/index.js"
   },
   "files": [
-    "dist"
+    "dist",
+    "README.md"
   ],
   "scripts": {
     "build": "tsc",
-    "prepare": "npm run build",
-    "start": "node dist/index.js"
+    "start": "node dist/index.js",
+    "prepublishOnly": "npm run build"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.12.1",
@@ -22,5 +23,13 @@
   "devDependencies": {
     "typescript": "^5.8.3",
     "@types/node": "^22.15.3"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/skills-il/mcps.git",
+    "directory": "israel-nutrition-mcp"
   }
 }

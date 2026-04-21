@@ -1,5 +1,5 @@
 {
-  "name": "israel-nature-mcp",
+  "name": "@skills-il/israel-nature-mcp",
   "version": "1.0.0",
   "description": "MCP server wrapping iNaturalist and GBIF APIs for Israeli nature observations and biodiversity data",
   "type": "module",
@@ -8,9 +8,9 @@
   },
   "scripts": {
     "build": "tsc",
-    "prepare": "npm run build",
     "start": "node dist/index.js",
-    "dev": "tsc --watch"
+    "dev": "tsc --watch",
+    "prepublishOnly": "npm run build"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.12.1",
@@ -19,5 +19,17 @@
   "devDependencies": {
     "typescript": "^5.8.3",
     "@types/node": "^22.15.2"
-  }
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/skills-il/mcps.git",
+    "directory": "israel-nature-mcp"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ]
 }

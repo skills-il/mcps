@@ -1,5 +1,5 @@
 {
-  "name": "israel-hiking-mcp",
+  "name": "@skills-il/israel-hiking-mcp",
   "version": "1.0.0",
   "description": "MCP server wrapping the Israel Hiking Map APIs (israelhiking.osm.org.il) for route planning, POI search, and trail discovery in Israel",
   "type": "module",
@@ -9,9 +9,9 @@
   },
   "scripts": {
     "build": "tsc",
-    "prepare": "npm run build",
     "start": "node dist/index.js",
-    "dev": "tsc --watch"
+    "dev": "tsc --watch",
+    "prepublishOnly": "npm run build"
   },
   "keywords": [
     "mcp",
@@ -30,5 +30,17 @@
   "devDependencies": {
     "@types/node": "^22.0.0",
     "typescript": "^5.8.0"
-  }
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/skills-il/mcps.git",
+    "directory": "israel-hiking-mcp"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ]
 }

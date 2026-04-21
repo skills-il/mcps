@@ -2,6 +2,33 @@
 
 An MCP (Model Context Protocol) server that provides access to Israeli supermarket price data from the government-mandated Price Transparency Law.
 
+## Install
+
+```bash
+npx -y @skills-il/supermarket-prices-mcp
+```
+
+### Claude Desktop
+
+Add to `claude_desktop_config.json`:
+
+```json
+{
+  "mcpServers": {
+    "supermarket-prices": {
+      "command": "npx",
+      "args": ["-y", "@skills-il/supermarket-prices-mcp"]
+    }
+  }
+}
+```
+
+### Claude Code
+
+```bash
+claude mcp add supermarket-prices npx -- -y @skills-il/supermarket-prices-mcp
+```
+
 ## Background
 
 Under Israel's 2014 Food Act (Price Transparency in the Food Industry), all supermarket chains with 3 or more stores are required to publish their product prices, promotions, and store information as XML files daily. This data is publicly accessible.
@@ -57,8 +84,7 @@ Add to your `claude_desktop_config.json`:
 {
   "mcpServers": {
     "supermarket-prices": {
-      "command": "node",
-      "args": ["/path/to/supermarket-prices-mcp/dist/index.js"]
+      "command": "npx", "args": ["-y", "@skills-il/supermarket-prices-mcp"]
     }
   }
 }
@@ -67,7 +93,7 @@ Add to your `claude_desktop_config.json`:
 ### Claude Code
 
 ```bash
-claude mcp add supermarket-prices node /path/to/supermarket-prices-mcp/dist/index.js
+claude mcp add supermarket-prices npx -- -y @skills-il/supermarket-prices-mcp
 ```
 
 ## XML Data Schema

@@ -2,6 +2,33 @@
 
 An MCP (Model Context Protocol) server that wraps Tel Aviv Municipality's open data APIs. It provides tools for querying real-time city data including parking availability, bike sharing stations, road closures, nearby municipal services, and cultural venues.
 
+## Install
+
+```bash
+npx -y @skills-il/tel-aviv-city-mcp
+```
+
+### Claude Desktop
+
+Add to `claude_desktop_config.json`:
+
+```json
+{
+  "mcpServers": {
+    "tel-aviv-city": {
+      "command": "npx",
+      "args": ["-y", "@skills-il/tel-aviv-city-mcp"]
+    }
+  }
+}
+```
+
+### Claude Code
+
+```bash
+claude mcp add tel-aviv-city npx -- -y @skills-il/tel-aviv-city-mcp
+```
+
 ## Data Source
 
 All data comes from the Tel Aviv Municipality ArcGIS REST services at `gisn.tel-aviv.gov.il`. These are public endpoints that require no authentication. The data is maintained by the Tel Aviv-Yafo Municipality and updated regularly.
@@ -84,8 +111,7 @@ Add to your Claude Desktop configuration (`claude_desktop_config.json`):
 {
   "mcpServers": {
     "tel-aviv-city": {
-      "command": "node",
-      "args": ["/path/to/tel-aviv-city-mcp/dist/index.js"]
+      "command": "npx", "args": ["-y", "@skills-il/tel-aviv-city-mcp"]
     }
   }
 }
@@ -94,7 +120,7 @@ Add to your Claude Desktop configuration (`claude_desktop_config.json`):
 ## Usage with Claude Code
 
 ```bash
-claude mcp add tel-aviv-city -- node /path/to/tel-aviv-city-mcp/dist/index.js
+claude mcp add tel-aviv-city npx -- -y @skills-il/tel-aviv-city-mcp
 ```
 
 ## Development

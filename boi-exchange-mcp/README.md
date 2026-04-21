@@ -4,6 +4,33 @@ MCP server for official Bank of Israel exchange rates. Access daily representati
 
 No API key required.
 
+## Install
+
+```bash
+npx -y @skills-il/boi-exchange-mcp
+```
+
+### Claude Desktop
+
+Add to `claude_desktop_config.json`:
+
+```json
+{
+  "mcpServers": {
+    "boi-exchange": {
+      "command": "npx",
+      "args": ["-y", "@skills-il/boi-exchange-mcp"]
+    }
+  }
+}
+```
+
+### Claude Code
+
+```bash
+claude mcp add boi-exchange npx -- -y @skills-il/boi-exchange-mcp
+```
+
 ## Tools
 
 | Tool | Description |
@@ -14,7 +41,7 @@ No API key required.
 | `get_rate_change` | Calculate rate change (absolute and percentage) between two dates |
 | `convert_currency` | Convert an amount between ILS and another currency using the latest official rate |
 
-## Setup
+## Local development
 
 ### Claude Desktop / Claude Code
 
@@ -35,7 +62,7 @@ Add to your MCP config:
 
 ```bash
 git clone https://github.com/skills-il/mcps.git
-cd mcps/boi-exchange-mcp
+cd mcps/boi-exchange-mcp/boi-exchange-mcp
 npm install
 npm run build
 ```
@@ -46,8 +73,7 @@ Then add to your MCP config:
 {
   "mcpServers": {
     "boi-exchange": {
-      "command": "node",
-      "args": ["/path/to/boi-exchange-mcp/dist/index.js"]
+      "command": "npx", "args": ["-y", "@skills-il/boi-exchange-mcp"]
     }
   }
 }

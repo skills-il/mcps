@@ -2,6 +2,33 @@
 
 An [MCP](https://modelcontextprotocol.io/) server providing access to Tel Aviv Stock Exchange (TASE) market data through the official [TASE Data Hub](https://datahubapi.tase.co.il/) API.
 
+## Install
+
+```bash
+npx -y @skills-il/tase-mcp
+```
+
+### Claude Desktop
+
+Add to `claude_desktop_config.json`:
+
+```json
+{
+  "mcpServers": {
+    "tase": {
+      "command": "npx",
+      "args": ["-y", "@skills-il/tase-mcp"]
+    }
+  }
+}
+```
+
+### Claude Code
+
+```bash
+claude mcp add tase npx -- -y @skills-il/tase-mcp
+```
+
 ## Prerequisites
 
 - Node.js 18+
@@ -11,14 +38,14 @@ An [MCP](https://modelcontextprotocol.io/) server providing access to Tel Aviv S
 ## Installation
 
 ```bash
-npx tase-mcp
+npx -y @skills-il/tase-mcp
 ```
 
 Or install locally:
 
 ```bash
-git clone https://github.com/skills-il/tase-mcp.git
-cd tase-mcp
+git clone https://github.com/skills-il/mcps.git
+cd mcps/tase-mcp
 npm install
 npm run build
 node dist/index.js
@@ -151,7 +178,7 @@ Add to your `claude_desktop_config.json`:
 ## Claude Code configuration
 
 ```bash
-claude mcp add tase -- npx -y tase-mcp
+claude mcp add tase -- npx -y @skills-il/tase-mcp
 export TASE_API_KEY=your_api_key_here
 ```
 

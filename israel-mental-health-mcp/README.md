@@ -4,6 +4,33 @@ An MCP (Model Context Protocol) server for finding community mental health clini
 
 > **Important:** This server provides publicly available government data for informational purposes only. It does not constitute medical advice, diagnosis, or treatment recommendations. If you or someone you know is in a mental health crisis, please contact emergency services (Magen David Adom: 101) or the national mental health hotline (1-800-363-363).
 
+## Install
+
+```bash
+npx -y @skills-il/israel-mental-health-mcp
+```
+
+### Claude Desktop
+
+Add to `claude_desktop_config.json`:
+
+```json
+{
+  "mcpServers": {
+    "israel-mental-health": {
+      "command": "npx",
+      "args": ["-y", "@skills-il/israel-mental-health-mcp"]
+    }
+  }
+}
+```
+
+### Claude Code
+
+```bash
+claude mcp add israel-mental-health npx -- -y @skills-il/israel-mental-health-mcp
+```
+
 ## Tools
 
 | Tool | Description |
@@ -24,7 +51,7 @@ All data comes from the Israeli Ministry of Health via the data.gov.il open data
 ## Installation
 
 ```bash
-npm install israel-mental-health-mcp
+npx -y @skills-il/israel-mental-health-mcp   # one-shot, no global install needed
 ```
 
 Or clone and build from source:
@@ -56,7 +83,7 @@ Add to your `claude_desktop_config.json`:
 ### Claude Code
 
 ```bash
-claude mcp add israel-mental-health-mcp -- npx -y israel-mental-health-mcp
+claude mcp add israel-mental-health-mcp -- npx -y @skills-il/israel-mental-health-mcp
 ```
 
 ## API

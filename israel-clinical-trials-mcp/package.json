@@ -1,5 +1,5 @@
 {
-  "name": "israel-clinical-trials-mcp",
+  "name": "@skills-il/israel-clinical-trials-mcp",
   "version": "1.0.0",
   "description": "MCP server for searching clinical trials at Israeli hospitals and research centers via ClinicalTrials.gov v2 API",
   "license": "MIT",
@@ -9,8 +9,8 @@
   },
   "scripts": {
     "build": "tsc",
-    "prepare": "npm run build",
-    "start": "node dist/index.js"
+    "start": "node dist/index.js",
+    "prepublishOnly": "npm run build"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.12.1",
@@ -19,5 +19,17 @@
   "devDependencies": {
     "typescript": "^5.8.3",
     "@types/node": "^22.15.3"
-  }
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/skills-il/mcps.git",
+    "directory": "israel-clinical-trials-mcp"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ]
 }

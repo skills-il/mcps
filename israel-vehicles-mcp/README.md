@@ -4,6 +4,33 @@ MCP server for the Israeli Vehicle Registry (Ministry of Transport). Look up any
 
 Data source: [data.gov.il](https://data.gov.il/) CKAN DataStore API. No API key required.
 
+## Install
+
+```bash
+npx -y @skills-il/israel-vehicles-mcp
+```
+
+### Claude Desktop
+
+Add to `claude_desktop_config.json`:
+
+```json
+{
+  "mcpServers": {
+    "israel-vehicles": {
+      "command": "npx",
+      "args": ["-y", "@skills-il/israel-vehicles-mcp"]
+    }
+  }
+}
+```
+
+### Claude Code
+
+```bash
+claude mcp add israel-vehicles npx -- -y @skills-il/israel-vehicles-mcp
+```
+
 ## Tools
 
 | Tool | Description |
@@ -35,7 +62,7 @@ Add to your MCP config:
 
 ```bash
 git clone https://github.com/skills-il/mcps.git
-cd mcps/israel-vehicles-mcp
+cd mcps/israel-vehicles-mcp/israel-vehicles-mcp
 npm install
 npm run build
 node dist/index.js

@@ -1,5 +1,5 @@
 {
-  "name": "supermarket-prices-mcp",
+  "name": "@skills-il/supermarket-prices-mcp",
   "version": "1.0.0",
   "description": "MCP server for Israeli supermarket price data from the government-mandated Price Transparency Law",
   "type": "module",
@@ -8,9 +8,9 @@
   },
   "scripts": {
     "build": "tsc",
-    "prepare": "npm run build",
     "start": "node dist/index.js",
-    "dev": "tsc --watch"
+    "dev": "tsc --watch",
+    "prepublishOnly": "npm run build"
   },
   "keywords": [
     "mcp",
@@ -27,5 +27,17 @@
   "devDependencies": {
     "@types/node": "^22.15.3",
     "typescript": "^5.8.3"
-  }
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/skills-il/mcps.git",
+    "directory": "supermarket-prices-mcp"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ]
 }

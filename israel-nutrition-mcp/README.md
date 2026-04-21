@@ -2,6 +2,33 @@
 
 MCP server for Israel's National Nutrition Database (Tzameret), providing access to 4,500+ foods with 74 nutritional components per item. Data is sourced from the Israeli Ministry of Health's official database via [data.gov.il](https://data.gov.il).
 
+## Install
+
+```bash
+npx -y @skills-il/israel-nutrition-mcp
+```
+
+### Claude Desktop
+
+Add to `claude_desktop_config.json`:
+
+```json
+{
+  "mcpServers": {
+    "israel-nutrition": {
+      "command": "npx",
+      "args": ["-y", "@skills-il/israel-nutrition-mcp"]
+    }
+  }
+}
+```
+
+### Claude Code
+
+```bash
+claude mcp add israel-nutrition npx -- -y @skills-il/israel-nutrition-mcp
+```
+
 ## Data Source
 
 The [Tzameret database](https://data.gov.il/dataset/tzameret) is maintained by Israel's Ministry of Health and contains comprehensive nutritional information for foods commonly consumed in Israel, including traditional Israeli and Middle Eastern dishes. All nutritional values are per 100g.
@@ -44,13 +71,13 @@ Find foods ranked by a specific nutrient value (highest or lowest). Useful for f
 ## Installation
 
 ```bash
-npm install -g israel-nutrition-mcp
+npx -y @skills-il/israel-nutrition-mcp   # one-shot, no global install needed
 ```
 
 Or run directly with npx:
 
 ```bash
-npx israel-nutrition-mcp
+npx -y @skills-il/israel-nutrition-mcp
 ```
 
 ## Configuration

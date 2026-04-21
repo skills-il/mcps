@@ -4,6 +4,33 @@ MCP server for Israel Railways (Rakevet Israel) train schedules, real-time data,
 
 No API key required.
 
+## Install
+
+```bash
+npx -y @skills-il/israel-railways-mcp
+```
+
+### Claude Desktop
+
+Add to `claude_desktop_config.json`:
+
+```json
+{
+  "mcpServers": {
+    "israel-railways": {
+      "command": "npx",
+      "args": ["-y", "@skills-il/israel-railways-mcp"]
+    }
+  }
+}
+```
+
+### Claude Code
+
+```bash
+claude mcp add israel-railways npx -- -y @skills-il/israel-railways-mcp
+```
+
 ## Tools
 
 | Tool | Description |
@@ -12,7 +39,7 @@ No API key required.
 | `list_stations` | List all 68 stations with Hebrew/English names and IDs. Optional name filter |
 | `get_service_updates` | Get current service disruptions, maintenance notices, and announcements |
 
-## Setup
+## Local development
 
 ### Claude Desktop / Claude Code
 
@@ -33,7 +60,7 @@ Add to your MCP config:
 
 ```bash
 git clone https://github.com/skills-il/mcps.git
-cd mcps/israel-railways-mcp
+cd mcps/israel-railways-mcp/israel-railways-mcp
 npm install
 npm run build
 ```
@@ -44,8 +71,7 @@ Then add to your MCP config:
 {
   "mcpServers": {
     "israel-railways": {
-      "command": "node",
-      "args": ["/path/to/israel-railways-mcp/dist/index.js"]
+      "command": "npx", "args": ["-y", "@skills-il/israel-railways-mcp"]
     }
   }
 }
