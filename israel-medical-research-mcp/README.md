@@ -1,5 +1,8 @@
 # israel-medical-research-mcp
 
+Part of [skills-il](https://github.com/skills-il) — browse all Israeli MCP servers at [agentskills.co.il/mcp](https://agentskills.co.il/mcp).
+
+
 MCP server for medical research from Israeli institutions, via the [PubMed E-utilities API](https://www.ncbi.nlm.nih.gov/books/NBK25501/). Every search auto-scopes to `israel[affiliation]`.
 
 ## Install

@@ -1,6 +1,6 @@
 {
   "name": "@skills-il/israel-railways-mcp",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "MCP server for Israel Railways (Rakevet Israel) train schedules, real-time data, and station information",
   "type": "module",
   "bin": {

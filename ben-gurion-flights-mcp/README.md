@@ -1,5 +1,8 @@
 # ben-gurion-flights-mcp
 
+Part of [skills-il](https://github.com/skills-il) — browse all Israeli MCP servers at [agentskills.co.il/mcp](https://agentskills.co.il/mcp).
+
+
 An MCP (Model Context Protocol) server providing real-time flight arrivals and departures at Ben Gurion Airport (TLV). Data comes from the official Israel Airports Authority feed published on data.gov.il, updated every 15 minutes.
 
 ## Install

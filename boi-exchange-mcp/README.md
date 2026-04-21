@@ -1,5 +1,8 @@
 # BOI Exchange MCP
 
+Part of [skills-il](https://github.com/skills-il) — browse all Israeli MCP servers at [agentskills.co.il/mcp](https://agentskills.co.il/mcp).
+
+
 MCP server for official Bank of Israel exchange rates. Access daily representative rates (sha'ar yatzig) for 30+ currencies against the Israeli New Shekel (ILS) via the official BOI SDMX API.
 
 No API key required.

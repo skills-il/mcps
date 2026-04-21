@@ -1,6 +1,6 @@
 {
   "name": "@skills-il/boi-exchange-mcp",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "MCP server for Bank of Israel official exchange rates via the BOI SDMX API",
   "type": "module",
   "bin": {

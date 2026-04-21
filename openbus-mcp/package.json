@@ -1,6 +1,6 @@
 {
   "name": "@skills-il/openbus-mcp",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "MCP server wrapping the Open Bus Stride API by Hasadna - Israeli public transit data",
   "type": "module",
   "bin": {

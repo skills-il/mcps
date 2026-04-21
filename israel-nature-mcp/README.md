@@ -1,5 +1,8 @@
 # israel-nature-mcp
 
+Part of [skills-il](https://github.com/skills-il) — browse all Israeli MCP servers at [agentskills.co.il/mcp](https://agentskills.co.il/mcp).
+
+
 MCP server for Israeli nature observations and biodiversity data, wrapping the [iNaturalist](https://www.inaturalist.org/) and [GBIF](https://www.gbif.org/) APIs. All queries are scoped to Israel.
 
 ## Install

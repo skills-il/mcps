@@ -1,6 +1,6 @@
 {
   "name": "@skills-il/tel-aviv-city-mcp",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "MCP server wrapping Tel Aviv Municipality open data APIs (ArcGIS REST services)",
   "license": "MIT",
   "type": "module",

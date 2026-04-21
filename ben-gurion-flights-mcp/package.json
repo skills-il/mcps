@@ -1,6 +1,6 @@
 {
   "name": "@skills-il/ben-gurion-flights-mcp",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "MCP server for real-time Ben Gurion Airport (TLV) flight data from the Israel Airports Authority",
   "license": "MIT",
   "type": "module",

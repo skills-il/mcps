@@ -1,5 +1,8 @@
 # israel-mental-health-mcp
 
+Part of [skills-il](https://github.com/skills-il) — browse all Israeli MCP servers at [agentskills.co.il/mcp](https://agentskills.co.il/mcp).
+
+
 An MCP (Model Context Protocol) server for finding community mental health clinics, psychiatric emergency services, and quality metrics across Israel. Based on official Ministry of Health data published on [data.gov.il](https://data.gov.il).
 
 > **Important:** This server provides publicly available government data for informational purposes only. It does not constitute medical advice, diagnosis, or treatment recommendations. If you or someone you know is in a mental health crisis, please contact emergency services (Magen David Adom: 101) or the national mental health hotline (1-800-363-363).

@@ -1,6 +1,6 @@
 {
   "name": "@skills-il/israel-clinical-trials-mcp",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "MCP server for searching clinical trials at Israeli hospitals and research centers via ClinicalTrials.gov v2 API",
   "license": "MIT",
   "type": "module",

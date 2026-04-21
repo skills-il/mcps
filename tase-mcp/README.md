@@ -1,5 +1,8 @@
 # TASE MCP - Tel Aviv Stock Exchange MCP Server
 
+Part of [skills-il](https://github.com/skills-il) — browse all Israeli MCP servers at [agentskills.co.il/mcp](https://agentskills.co.il/mcp).
+
+
 An [MCP](https://modelcontextprotocol.io/) server providing access to Tel Aviv Stock Exchange (TASE) market data through the official [TASE Data Hub](https://datahubapi.tase.co.il/) API.
 
 ## Install

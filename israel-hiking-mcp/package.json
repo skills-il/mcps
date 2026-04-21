@@ -1,6 +1,6 @@
 {
   "name": "@skills-il/israel-hiking-mcp",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "MCP server wrapping the Israel Hiking Map APIs (israelhiking.osm.org.il) for route planning, POI search, and trail discovery in Israel",
   "type": "module",
   "main": "dist/index.js",

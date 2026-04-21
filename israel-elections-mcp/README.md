@@ -1,5 +1,8 @@
 # israel-elections-mcp
 
+Part of [skills-il](https://github.com/skills-il) — browse all Israeli MCP servers at [agentskills.co.il/mcp](https://agentskills.co.il/mcp).
+
+
 MCP server for Israeli Knesset election results — settlement-level votes, turnout, and cross-election comparisons. Data from [data.gov.il](https://data.gov.il/) Central Elections Committee resources.
 
 ## Install

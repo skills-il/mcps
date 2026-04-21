@@ -1,5 +1,8 @@
 # Israel Clinical Trials MCP Server
 
+Part of [skills-il](https://github.com/skills-il) — browse all Israeli MCP servers at [agentskills.co.il/mcp](https://agentskills.co.il/mcp).
+
+
 An MCP (Model Context Protocol) server that searches active and completed clinical trials at Israeli hospitals and research centers via the [ClinicalTrials.gov v2 API](https://clinicaltrials.gov/data-api/api).
 
 > **Disclaimer**: This tool is for informational purposes only and does not constitute medical advice. Clinical trial information may change frequently. Always consult qualified healthcare providers before making any medical decisions, including decisions about participating in clinical trials.

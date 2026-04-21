@@ -1,6 +1,6 @@
 {
   "name": "@skills-il/israel-nature-mcp",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "MCP server wrapping iNaturalist and GBIF APIs for Israeli nature observations and biodiversity data",
   "type": "module",
   "bin": {

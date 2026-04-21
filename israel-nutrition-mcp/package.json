@@ -1,6 +1,6 @@
 {
   "name": "@skills-il/israel-nutrition-mcp",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "MCP server for Israel's National Nutrition Database (Tzameret) - 4,500+ foods with 74 nutritional components",
   "license": "MIT",
   "type": "module",

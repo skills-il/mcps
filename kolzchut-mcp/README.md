@@ -1,5 +1,8 @@
 # Kolzchut MCP Server
 
+Part of [skills-il](https://github.com/skills-il) — browse all Israeli MCP servers at [agentskills.co.il/mcp](https://agentskills.co.il/mcp).
+
+
 MCP server for [Kolzchut (All-Rights / כל-זכות)](https://www.kolzchut.org.il), Israel's authoritative knowledge base for rights and entitlements. Provides AI agents with access to thousands of structured articles covering rights for new immigrants (olim), tax benefits, housing, health insurance, employment, disability, elderly care, and more.
 
 ## Install

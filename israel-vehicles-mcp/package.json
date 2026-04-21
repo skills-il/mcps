@@ -1,6 +1,6 @@
 {
   "name": "@skills-il/israel-vehicles-mcp",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "MCP server for Israeli Vehicle Registry data from the Ministry of Transport via data.gov.il",
   "type": "module",
   "bin": {

@@ -1,6 +1,6 @@
 {
   "name": "@skills-il/israel-medical-research-mcp",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "MCP server for searching medical research from Israeli institutions via PubMed E-utilities API",
   "type": "module",
   "bin": {

@@ -1,5 +1,8 @@
 # tel-aviv-city-mcp
 
+Part of [skills-il](https://github.com/skills-il) — browse all Israeli MCP servers at [agentskills.co.il/mcp](https://agentskills.co.il/mcp).
+
+
 An MCP (Model Context Protocol) server that wraps Tel Aviv Municipality's open data APIs. It provides tools for querying real-time city data including parking availability, bike sharing stations, road closures, nearby municipal services, and cultural venues.
 
 ## Install

@@ -1,5 +1,8 @@
 # Israel Vehicle Registry MCP Server
 
+Part of [skills-il](https://github.com/skills-il) — browse all Israeli MCP servers at [agentskills.co.il/mcp](https://agentskills.co.il/mcp).
+
+
 MCP server for the Israeli Vehicle Registry (Ministry of Transport). Look up any vehicle by license plate, search by manufacturer or model, check roadworthiness test status, and get fleet statistics across 4.1M+ registered vehicles.
 
 Data source: [data.gov.il](https://data.gov.il/) CKAN DataStore API. No API key required.

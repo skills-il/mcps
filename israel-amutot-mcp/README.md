@@ -1,5 +1,8 @@
 # israel-amutot-mcp
 
+Part of [skills-il](https://github.com/skills-il) — browse all Israeli MCP servers at [agentskills.co.il/mcp](https://agentskills.co.il/mcp).
+
+
 MCP server for the Israeli non-profit registry: amutot, public benefit companies (חלצ), foreign donations, and management certificates. Data from [data.gov.il](https://data.gov.il/) (`guidestar` resources).
 
 ## Install
