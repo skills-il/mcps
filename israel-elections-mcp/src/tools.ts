@@ -11,6 +11,7 @@ import {
   type DataStoreRecord,
   type KnessetNumber,
 } from "./client.js";
+import { formatPartyLabel } from "./parties.js";
 
 const CHARACTER_LIMIT = 25_000;
 
@@ -38,16 +39,73 @@ const META_FIELDS = new Set([
  */
 function extractPartyVotes(
   record: DataStoreRecord
-): Array<{ party: string; votes: number }> {
-  const parties: Array<{ party: string; votes: number }> = [];
+): Array<{ code: string; votes: number }> {
+  const parties: Array<{ code: string; votes: number }> = [];
   for (const [key, value] of Object.entries(record)) {
     if (META_FIELDS.has(key)) continue;
     const votes = Number(value);
     if (!isNaN(votes) && votes > 0) {
-      parties.push({ party: key, votes });
+      parties.push({ code: key, votes });
     }
   }
   return parties.sort((a, b) => b.votes - a.votes);
+}
+
+/**
+ * Normalize a settlement name for matching against data.gov.il records.
+ * Settlements in the CSV use specific spacings around hyphens (e.g.
+ * "תל אביב -יפו") and inconsistent inner spacing, so we collapse whitespace
+ * and standardize hyphen handling before sending the filter.
+ */
+function normalizeSettlementName(raw: string): string {
+  return raw
+    .normalize("NFC")
+    .replace(/\s+/g, " ")
+    .replace(/\s*-\s*/g, " -")
+    .trim();
+}
+
+/**
+ * Resolve a (possibly imprecise) settlement name to its exact data.gov.il
+ * record. Tries exact-match first, then falls back to a full-text `q` search
+ * and picks the best match by valid-ballot weight.
+ */
+async function resolveSettlement(
+  resourceId: string,
+  settlementName: string,
+): Promise<DataStoreRecord | null> {
+  const normalized = normalizeSettlementName(settlementName);
+
+  const exact = await datastoreSearch({
+    resourceId,
+    filters: { "שם ישוב": normalized },
+    limit: 1,
+  });
+  if (exact.records.length > 0) return exact.records[0];
+
+  const fuzzy = await datastoreSearch({
+    resourceId,
+    q: normalized,
+    limit: 25,
+  });
+  if (fuzzy.records.length === 0) return null;
+
+  const lower = normalized.toLowerCase();
+  let best = fuzzy.records[0];
+  let bestScore = -1;
+  for (const rec of fuzzy.records) {
+    const name = String(rec["שם ישוב"] || "").toLowerCase();
+    let score = 0;
+    if (name === lower) score = 100;
+    else if (name.startsWith(lower) || lower.startsWith(name)) score = 50;
+    else if (name.includes(lower) || lower.includes(name)) score = 25;
+    score += Math.min(Number(rec["כשרים"] || 0), 1_000_000) / 1_000_000;
+    if (score > bestScore) {
+      bestScore = score;
+      best = rec;
+    }
+  }
+  return best;
 }
 
 function formatElectionResult(
@@ -74,12 +132,13 @@ function formatElectionResult(
   lines.push("");
   lines.push("### Party Results");
   lines.push("");
-  lines.push("| Party Code | Votes | % of Valid |");
+  lines.push("| Party | Votes | % of Valid |");
   lines.push("|---|---|---|");
 
-  for (const { party, votes } of parties) {
+  for (const { code, votes } of parties) {
     const pct = valid > 0 ? ((votes / valid) * 100).toFixed(1) : "0.0";
-    lines.push(`| ${party} | ${votes.toLocaleString()} | ${pct}% |`);
+    const label = formatPartyLabel(knesset as KnessetNumber, code);
+    lines.push(`| ${label} | ${votes.toLocaleString()} | ${pct}% |`);
   }
 
   return lines.join("\n");
@@ -175,13 +234,9 @@ export function registerTools(server: McpServer): void {
     async ({ knesset_number, settlement_name }) => {
       try {
         const resourceId = getSettlementResourceId(knesset_number as KnessetNumber);
-        const result = await datastoreSearch({
-          resourceId,
-          filters: { "שם ישוב": settlement_name },
-          limit: 1,
-        });
+        const record = await resolveSettlement(resourceId, settlement_name);
 
-        if (result.records.length === 0) {
+        if (!record) {
           return {
             content: [
               {
@@ -192,7 +247,7 @@ export function registerTools(server: McpServer): void {
           };
         }
 
-        const text = formatElectionResult(result.records[0], knesset_number);
+        const text = formatElectionResult(record, knesset_number);
         return { content: [{ type: "text" as const, text }] };
       } catch (error) {
         return {
@@ -299,14 +354,9 @@ export function registerTools(server: McpServer): void {
     async ({ knesset_number, settlement_name }) => {
       try {
         const resourceId = getSettlementResourceId(knesset_number as KnessetNumber);
-        const result = await datastoreSearch({
-          resourceId,
-          filters: { "שם ישוב": settlement_name },
-          fields: "שם ישוב,סמל ישוב,בזב,מצביעים,פסולים,כשרים",
-          limit: 1,
-        });
+        const rec = await resolveSettlement(resourceId, settlement_name);
 
-        if (result.records.length === 0) {
+        if (!rec) {
           return {
             content: [
               {
@@ -317,7 +367,6 @@ export function registerTools(server: McpServer): void {
           };
         }
 
-        const rec = result.records[0];
         const settlement = String(rec["שם ישוב"] || "");
         const eligible = Number(rec["בזב"] || 0);
         const voters = Number(rec["מצביעים"] || 0);
@@ -380,16 +429,12 @@ export function registerTools(server: McpServer): void {
 
         for (const knesset of SUPPORTED_KNESSETS) {
           const resourceId = getSettlementResourceId(knesset);
-          const result = await datastoreSearch({
-            resourceId,
-            filters: { "שם ישוב": settlement_name },
-            limit: 1,
-          });
+          const record = await resolveSettlement(resourceId, settlement_name);
 
           results.push({
             knesset,
-            found: result.records.length > 0,
-            record: result.records[0],
+            found: record !== null,
+            record: record ?? undefined,
           });
         }
 
@@ -449,12 +494,13 @@ export function registerTools(server: McpServer): void {
           lines.push("");
           lines.push(`## Top 5 Parties - Knesset ${r.knesset}`);
           lines.push("");
-          lines.push("| Party Code | Votes | % of Valid |");
+          lines.push("| Party | Votes | % of Valid |");
           lines.push("|---|---|---|");
 
-          for (const { party, votes } of top) {
+          for (const { code, votes } of top) {
             const pct = valid > 0 ? ((votes / valid) * 100).toFixed(1) : "0.0";
-            lines.push(`| ${party} | ${votes.toLocaleString()} | ${pct}% |`);
+            const label = formatPartyLabel(r.knesset as KnessetNumber, code);
+            lines.push(`| ${label} | ${votes.toLocaleString()} | ${pct}% |`);
           }
         }
 
