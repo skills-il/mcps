@@ -1,6 +1,6 @@
 # israel-nature-mcp
 
-Part of [skills-il](https://github.com/skills-il) — browse all Israeli MCP servers at [agentskills.co.il/mcp](https://agentskills.co.il/mcp).
+Part of [skills-il](https://github.com/skills-il): browse all Israeli MCP servers at [agentskills.co.il/mcp](https://agentskills.co.il/mcp).
 
 
 MCP server for Israeli nature observations and biodiversity data, wrapping the [iNaturalist](https://www.inaturalist.org/) and [GBIF](https://www.gbif.org/) APIs. All queries are scoped to Israel.
@@ -34,18 +34,18 @@ claude mcp add israel-nature npx -- -y @skills-il/israel-nature-mcp
 
 ## Tools
 
-- `search_observations` — Search iNaturalist observations in Israel by species, date range, or location.
-- `search_species` — Look up species (taxa) by common or scientific name.
-- `get_species_in_area` — Species observed within a bounding box in Israel.
-- `get_observation_stats` — Aggregate statistics on observations (counts, top contributors).
-- `search_biodiversity` — Cross-source biodiversity records via GBIF for Israeli localities.
+- `search_observations`: Search iNaturalist observations in Israel by species, date range, or location.
+- `search_species`: Look up species (taxa) by common or scientific name.
+- `get_species_in_area`: Species observed within a bounding box in Israel.
+- `get_observation_stats`: Aggregate statistics on observations (counts, top contributors).
+- `search_biodiversity`: Cross-source biodiversity records via GBIF for Israeli localities.
 
 See `src/tools.ts` for parameter schemas.
 
 ## Data sources
 
-- [iNaturalist API](https://api.inaturalist.org/v1/docs/) — community-contributed nature observations.
-- [GBIF API](https://www.gbif.org/developer/summary) — Global Biodiversity Information Facility occurrences.
+- [iNaturalist API](https://api.inaturalist.org/v1/docs/): community-contributed nature observations.
+- [GBIF API](https://www.gbif.org/developer/summary): Global Biodiversity Information Facility occurrences.
 
 Both are public, no key required.
 

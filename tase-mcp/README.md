@@ -1,6 +1,6 @@
 # TASE MCP - Tel Aviv Stock Exchange MCP Server
 
-Part of [skills-il](https://github.com/skills-il) — browse all Israeli MCP servers at [agentskills.co.il/mcp](https://agentskills.co.il/mcp).
+Part of [skills-il](https://github.com/skills-il): browse all Israeli MCP servers at [agentskills.co.il/mcp](https://agentskills.co.il/mcp).
 
 
 An [MCP](https://modelcontextprotocol.io/) server providing access to Tel Aviv Stock Exchange (TASE) market data through the official [TASE Data Hub](https://datahubapi.tase.co.il/) API.
@@ -35,7 +35,7 @@ claude mcp add tase npx -- -y @skills-il/tase-mcp
 ## Prerequisites
 
 - Node.js 18+
-- A TASE Data Hub developer account — sign in at [datahubapi.tase.co.il](https://datahubapi.tase.co.il/) (Google SSO)
+- A TASE Data Hub developer account: sign in at [datahubapi.tase.co.il](https://datahubapi.tase.co.il/) (Google SSO)
 - An application in the portal with an API key registered against the products you want to use (see "Product subscriptions" below)
 
 ## Installation
@@ -58,7 +58,7 @@ node dist/index.js
 
 | Variable | Required | Default | Notes |
 |----------|----------|---------|-------|
-| `TASE_API_KEY` | yes | — | The `apikey` from your application in the developer portal |
+| `TASE_API_KEY` | yes |: | The `apikey` from your application in the developer portal |
 | `TASE_BASE_URL` | no | `https://datawise.tase.co.il` | Override only if TASE points you elsewhere |
 
 ## Product subscriptions
@@ -197,9 +197,9 @@ Common error states surfaced to the caller:
 |-----------|---------|
 | Missing `TASE_API_KEY` | Points to the developer portal |
 | 401 | "API key is invalid or missing" |
-| 403 | "apikey is not registered for this product" — register the product in the portal |
+| 403 | "apikey is not registered for this product": register the product in the portal |
 | 429 | Rate-limit exceeded |
-| 500 / 503 | "TASE API is currently unavailable" — some online endpoints only return data during trading hours (Sun-Thu 9:30-17:00 Israel time) |
+| 500 / 503 | "TASE API is currently unavailable": some online endpoints only return data during trading hours (Sun-Thu 9:30-17:00 Israel time) |
 
 ## License
 

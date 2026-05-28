@@ -73,6 +73,7 @@ function normalizeSettlementName(raw: string): string {
 async function resolveSettlement(
   resourceId: string,
   settlementName: string,
+  fields?: string,
 ): Promise<DataStoreRecord | null> {
   const normalized = normalizeSettlementName(settlementName);
 
@@ -80,6 +81,7 @@ async function resolveSettlement(
     resourceId,
     filters: { "שם ישוב": normalized },
     limit: 1,
+    fields,
   });
   if (exact.records.length > 0) return exact.records[0];
 
@@ -87,6 +89,7 @@ async function resolveSettlement(
     resourceId,
     q: normalized,
     limit: 25,
+    fields,
   });
   if (fuzzy.records.length === 0) return null;
 
@@ -160,13 +163,13 @@ const KnessetNumberSchema = z
   .number()
   .int()
   .refine((n): n is KnessetNumber => SUPPORTED_KNESSETS.includes(n as KnessetNumber), {
-    message: "Supported Knesset numbers: 23, 24, 25",
+    message: "Supported Knesset numbers: 21, 22, 23, 24, 25",
   });
 
 const GetElectionResultsSchema = z
   .object({
     knesset_number: KnessetNumberSchema.describe(
-      "Knesset election number (23, 24, or 25)"
+      "Knesset election number (21, 22, 23, 24, or 25)"
     ),
     settlement_name: z
       .string()
@@ -182,7 +185,7 @@ const SearchSettlementsSchema = z
       .min(1)
       .describe("Search query in Hebrew to match settlement names"),
     knesset_number: KnessetNumberSchema.describe(
-      "Knesset election number (23, 24, or 25)"
+      "Knesset election number (21, 22, 23, 24, or 25)"
     ),
   })
   .strict();
@@ -190,7 +193,7 @@ const SearchSettlementsSchema = z
 const GetTurnoutSchema = z
   .object({
     knesset_number: KnessetNumberSchema.describe(
-      "Knesset election number (23, 24, or 25)"
+      "Knesset election number (21, 22, 23, 24, or 25)"
     ),
     settlement_name: z
       .string()
@@ -205,7 +208,7 @@ const CompareElectionsSchema = z
       .string()
       .min(1)
       .describe(
-        "Settlement name in Hebrew. Compared across Knesset 23, 24, and 25."
+        "Settlement name in Hebrew. Compared across Knesset 21-25."
       ),
   })
   .strict();
@@ -222,8 +225,8 @@ export function registerTools(server: McpServer): void {
       title: "Get Election Results",
       description:
         "Get Knesset election results for a specific settlement. " +
-        "Returns party vote counts, eligible voters, actual voters, turnout, and invalid/valid ballot counts. " +
-        "Settlement names are in Hebrew. Supports Knesset 23, 24, and 25.",
+        "Returns party vote counts (with party names translated to Hebrew + English), eligible voters, actual voters, turnout, and invalid/valid ballot counts. " +
+        "Settlement names are in Hebrew. Supports Knesset 21, 22, 23, 24, and 25.",
       inputSchema: GetElectionResultsSchema,
       annotations: {
         readOnlyHint: true,
@@ -354,7 +357,11 @@ export function registerTools(server: McpServer): void {
     async ({ knesset_number, settlement_name }) => {
       try {
         const resourceId = getSettlementResourceId(knesset_number as KnessetNumber);
-        const rec = await resolveSettlement(resourceId, settlement_name);
+        const rec = await resolveSettlement(
+          resourceId,
+          settlement_name,
+          "שם ישוב,סמל ישוב,בזב,מצביעים,פסולים,כשרים",
+        );
 
         if (!rec) {
           return {
@@ -409,7 +416,7 @@ export function registerTools(server: McpServer): void {
     {
       title: "Compare Elections",
       description:
-        "Compare election results for a settlement across Knesset 23, 24, and 25. " +
+        "Compare election results for a settlement across all supported Knessets (21-25). " +
         "Returns side-by-side turnout data and top parties for each election. " +
         "Useful for understanding voting trends over time.",
       inputSchema: CompareElectionsSchema,

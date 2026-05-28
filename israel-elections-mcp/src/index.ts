@@ -2,8 +2,8 @@
 /**
  * Israel Elections MCP Server
  *
- * Provides access to Israeli Knesset election results (Knesset 23, 24, 25)
- * via the data.gov.il DataStore API. No authentication required.
+ * Provides access to Israeli Knesset election results (Knesset 21, 22, 23, 24,
+ * 25) via the data.gov.il DataStore API. No authentication required.
  */
 
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
@@ -12,7 +12,7 @@ import { registerTools } from "./tools.js";
 
 const server = new McpServer({
   name: "israel-elections-mcp",
-  version: "1.1.0",
+  version: "1.1.1",
 });
 
 registerTools(server);

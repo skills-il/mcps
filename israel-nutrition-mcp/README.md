@@ -1,6 +1,6 @@
 # israel-nutrition-mcp
 
-Part of [skills-il](https://github.com/skills-il) — browse all Israeli MCP servers at [agentskills.co.il/mcp](https://agentskills.co.il/mcp).
+Part of [skills-il](https://github.com/skills-il): browse all Israeli MCP servers at [agentskills.co.il/mcp](https://agentskills.co.il/mcp).
 
 
 MCP server for Israel's National Nutrition Database (Tzameret), providing access to 4,500+ foods with 74 nutritional components per item. Data is sourced from the Israeli Ministry of Health's official database via [data.gov.il](https://data.gov.il).

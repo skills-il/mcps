@@ -25,10 +25,19 @@ export const RESOURCES: Record<
   },
   23: {
     bySettlement: "3dc36e20-25d6-4496-ba6a-71d9bc917349",
+    byBallot: "3b9e911a-2e90-4587-b209-84171664056b",
+  },
+  22: {
+    bySettlement: "bd22cd14-138c-4917-931a-ef628c2a5a30",
+    byBallot: "22f3a195-3a79-436c-be23-cb606bc7b398",
+  },
+  21: {
+    bySettlement: "1a1c7b2b-e819-4ba9-b159-d68e3566c58b",
+    byBallot: "f79f9ba5-fe12-4b90-96cc-916f1b7c1c34",
   },
 };
 
-export const SUPPORTED_KNESSETS = [23, 24, 25] as const;
+export const SUPPORTED_KNESSETS = [21, 22, 23, 24, 25] as const;
 export type KnessetNumber = (typeof SUPPORTED_KNESSETS)[number];
 
 interface DataStoreSearchParams {

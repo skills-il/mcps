@@ -1,6 +1,6 @@
 # Israel Railways MCP
 
-Part of [skills-il](https://github.com/skills-il) — browse all Israeli MCP servers at [agentskills.co.il/mcp](https://agentskills.co.il/mcp).
+Part of [skills-il](https://github.com/skills-il): browse all Israeli MCP servers at [agentskills.co.il/mcp](https://agentskills.co.il/mcp).
 
 
 MCP server for Israel Railways (Rakevet Israel) train schedules, real-time data, and station information. Search routes between any of 68 stations, check platforms, occupancy, and service disruptions.

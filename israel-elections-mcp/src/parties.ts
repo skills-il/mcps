@@ -1,15 +1,17 @@
 /**
- * Party ballot-letter → party name lookup, per Knesset.
+ * Party ballot-letter to party-name lookup, per Knesset.
  *
  * The data.gov.il CSV exposes party vote counts as columns whose name is the
- * ballot letter (אות הרשימה), not the party name. The same letter can map to
+ * ballot letter (אותיות), not the party name. The same letter can map to
  * different parties across elections (e.g. "כן" was Blue and White (Gantz) in
  * K24 and National Unity (Gantz) in K25; "ב" was Yamina in K24 and HaBayit
- * HaYehudi in K25; "פה" was Blue and White (Gantz+Lapid joint) in K23 and Yesh
- * Atid alone in K24/K25).
+ * HaYehudi in K25; "פה" was Blue and White (Gantz+Lapid joint) in K21-K23 and
+ * Yesh Atid alone in K24-K25), so the table is keyed by Knesset number.
  *
- * Source: Central Elections Committee final result rosters
- * (https://www.bechirot25.gov.il, .../bechirot24, .../bechirot23).
+ * Source: official Central Elections Committee "candidates-lists" datasets on
+ * data.gov.il (package "candidates-lists"). K25 lacks a published
+ * candidates-list resource at the time of writing and is mapped from final
+ * result tallies sanity-checked against the K25 settlement file.
  *
  * Only parties that received non-trivial vote shares are listed. Unknown codes
  * fall through to displaying the raw ballot letter.
@@ -52,22 +54,54 @@ const K24: PartyMap = {
   ג: { he: "יהדות התורה", en: "United Torah Judaism" },
   אמת: { he: "העבודה", en: "Labor" },
   מרצ: { he: "מרצ", en: "Meretz" },
-  עם: { he: 'רע"ם', en: "Ra'am (UAL)" },
-  ודעם: { he: "הרשימה המשותפת", en: "Joint List" },
+  עם: { he: "הרשימה הערבית המאוחדת", en: "Ra'am (UAL)" },
+  ודעם: { he: 'הרשימה המשותפת (חד"ש-תע"ל-בל"ד)', en: "Joint List" },
 };
 
 const K23: PartyMap = {
   מחל: { he: "הליכוד", en: "Likud" },
   פה: { he: "כחול לבן", en: "Blue and White" },
-  ודעם: { he: "הרשימה המשותפת", en: "Joint List" },
+  ודעם: { he: 'הרשימה המשותפת (חד"ש-תע"ל-בל"ד)', en: "Joint List" },
   שס: { he: 'ש"ס', en: "Shas" },
   אמת: { he: "העבודה-גשר-מרצ", en: "Labor-Gesher-Meretz" },
   ג: { he: "יהדות התורה", en: "United Torah Judaism" },
   ל: { he: "ישראל ביתנו", en: "Yisrael Beiteinu" },
+  טב: { he: "ימינה (הימין החדש)", en: "Yamina (HaYamin HeHadash)" },
+};
+
+const K22: PartyMap = {
+  מחל: { he: "הליכוד", en: "Likud" },
+  פה: { he: "כחול לבן", en: "Blue and White" },
+  ודעם: { he: 'הרשימה המשותפת (חד"ש-תע"ל-בל"ד)', en: "Joint List" },
+  שס: { he: 'ש"ס', en: "Shas" },
+  אמת: { he: "העבודה", en: "Labor" },
+  ג: { he: "יהדות התורה", en: "United Torah Judaism" },
+  ל: { he: "ישראל ביתנו", en: "Yisrael Beiteinu" },
   טב: { he: "ימינה", en: "Yamina" },
+  מרצ: { he: "המחנה הדמוקרטי", en: "Democratic Camp (Meretz-led)" },
+  כף: { he: "עוצמה יהודית", en: "Otzma Yehudit" },
+};
+
+const K21: PartyMap = {
+  מחל: { he: "הליכוד", en: "Likud" },
+  פה: { he: "כחול לבן", en: "Blue and White" },
+  ום: { he: 'חד"ש-תע"ל', en: "Hadash-Ta'al" },
+  דעם: { he: 'רע"ם-בל"ד', en: "Ra'am-Balad" },
+  שס: { he: 'ש"ס', en: "Shas" },
+  אמת: { he: "העבודה", en: "Labor" },
+  ג: { he: "יהדות התורה", en: "United Torah Judaism" },
+  ל: { he: "ישראל ביתנו", en: "Yisrael Beiteinu" },
+  מרצ: { he: "מרצ", en: "Meretz" },
+  טב: { he: "איחוד מפלגות הימין", en: "Union of Right-Wing Parties (URWP)" },
+  כ: { he: "כולנו", en: "Kulanu" },
+  נ: { he: "הימין החדש", en: "HaYamin HeHadash (New Right)" },
+  ז: { he: "זהות", en: "Zehut" },
+  נר: { he: "גשר", en: "Gesher" },
 };
 
 const PARTY_NAMES: Record<KnessetNumber, PartyMap> = {
+  21: K21,
+  22: K22,
   23: K23,
   24: K24,
   25: K25,

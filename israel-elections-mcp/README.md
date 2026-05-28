@@ -39,9 +39,17 @@ claude mcp add israel-elections npx -- -y @skills-il/israel-elections-mcp
 - `get_turnout`: Voter turnout (eligible / actual / valid) for a settlement and Knesset.
 - `compare_elections`: Compare results for the same settlement across multiple Knesset elections.
 
+Supported Knessets: 21 (April 2019), 22 (September 2019), 23 (March 2020), 24 (March 2021), 25 (November 2022).
+
 Settlement names are matched leniently (exact match first, then a full-text search fallback), so `"תל אביב"`, `"תל אביב-יפו"`, and the canonical `"תל אביב  יפו"` all resolve to the same record.
 
 See `src/tools.ts` for parameter schemas and supported Knesset numbers (`SUPPORTED_KNESSETS`).
+
+## Tests
+
+```bash
+npm test    # runs the smoke suite in test/smoke.test.mjs against the live data.gov.il API
+```
 
 ## Data source
 

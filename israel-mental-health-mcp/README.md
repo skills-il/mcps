@@ -1,6 +1,6 @@
 # israel-mental-health-mcp
 
-Part of [skills-il](https://github.com/skills-il) — browse all Israeli MCP servers at [agentskills.co.il/mcp](https://agentskills.co.il/mcp).
+Part of [skills-il](https://github.com/skills-il): browse all Israeli MCP servers at [agentskills.co.il/mcp](https://agentskills.co.il/mcp).
 
 
 An MCP (Model Context Protocol) server for finding community mental health clinics, psychiatric emergency services, and quality metrics across Israel. Based on official Ministry of Health data published on [data.gov.il](https://data.gov.il).

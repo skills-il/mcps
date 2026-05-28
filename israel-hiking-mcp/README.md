@@ -1,6 +1,6 @@
 # israel-hiking-mcp
 
-Part of [skills-il](https://github.com/skills-il) — browse all Israeli MCP servers at [agentskills.co.il/mcp](https://agentskills.co.il/mcp).
+Part of [skills-il](https://github.com/skills-il): browse all Israeli MCP servers at [agentskills.co.il/mcp](https://agentskills.co.il/mcp).
 
 
 An MCP (Model Context Protocol) server that wraps the [Israel Hiking Map](https://israelhiking.osm.org.il/) APIs, providing route planning, POI search, trail discovery, and coordinate conversion for Israel.

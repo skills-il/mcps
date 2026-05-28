@@ -1,6 +1,6 @@
 # openbus-mcp
 
-Part of [skills-il](https://github.com/skills-il) — browse all Israeli MCP servers at [agentskills.co.il/mcp](https://agentskills.co.il/mcp).
+Part of [skills-il](https://github.com/skills-il): browse all Israeli MCP servers at [agentskills.co.il/mcp](https://agentskills.co.il/mcp).
 
 
 An MCP (Model Context Protocol) server that wraps the [Open Bus Stride API](https://open-bus-stride-api.hasadna.org.il/docs) by [The Public Knowledge Workshop (Hasadna)](https://www.hasadna.org.il/). Provides AI agents with access to Israeli public transit data including real-time arrivals, ride performance, routes, stops, timetables, vehicle locations, and transit agencies.
