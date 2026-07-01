@@ -32,17 +32,7 @@ function resolveStation(query: string): { id: string; name: string } {
 }
 
 function formatTime(isoString: string): string {
-  try {
-    const d = new Date(isoString);
-    return d.toLocaleTimeString("en-GB", {
-      hour: "2-digit",
-      minute: "2-digit",
-      hour12: false,
-      timeZone: "Asia/Jerusalem",
-    });
-  } catch {
-    return isoString;
-  }
+  return isoString.slice(11, 16);
 }
 
 export function registerTools(server: McpServer): void {
