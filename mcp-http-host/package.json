@@ -12,7 +12,8 @@
     "clean": "rm -rf dist",
     "verify:adapters": "tsx scripts/verify-adapters.ts",
     "snapshot:tools": "tsx scripts/snapshot-tools.ts",
-    "probe": "tsx scripts/probe.ts"
+    "probe": "tsx scripts/probe.ts",
+    "load-check": "tsx scripts/load-check.ts"
   },
   "engines": {
     "node": ">=20"
