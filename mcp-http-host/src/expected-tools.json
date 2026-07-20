@@ -1,0 +1,160 @@
+{
+  "ben-gurion-flights": [
+    "get_arrivals",
+    "get_departures",
+    "get_flight_status",
+    "search_flights",
+    "get_airport_summary"
+  ],
+  "boi-exchange": [
+    "get_exchange_rate",
+    "get_historical_rates",
+    "list_currencies",
+    "get_rate_change",
+    "convert_currency"
+  ],
+  "israel-amutot": [
+    "search_amuta",
+    "get_amuta_details",
+    "search_by_activity",
+    "get_financial_info",
+    "count_amutot",
+    "search_foreign_donations",
+    "get_amuta_donation_summary",
+    "check_management_certificate",
+    "search_certificates",
+    "search_public_benefit_company",
+    "get_public_benefit_company_details"
+  ],
+  "israel-clinical-trials": [
+    "search_trials",
+    "get_trial_details",
+    "find_trials_by_hospital",
+    "list_recruiting_trials",
+    "get_trial_locations"
+  ],
+  "israel-elections": [
+    "get_election_results",
+    "search_settlements",
+    "get_turnout",
+    "compare_elections"
+  ],
+  "israel-hiking": [
+    "search_pois",
+    "plan_route",
+    "find_trails",
+    "get_poi_details",
+    "convert_coordinates"
+  ],
+  "israel-medical-research": [
+    "search_papers",
+    "get_paper_details",
+    "search_by_institution",
+    "get_recent_papers",
+    "count_papers"
+  ],
+  "israel-mental-health": [
+    "find_clinics",
+    "get_clinic_details",
+    "find_by_therapy",
+    "find_by_specialization",
+    "get_quality_metrics"
+  ],
+  "israel-nature": [
+    "search_observations",
+    "search_species",
+    "get_species_in_area",
+    "get_observation_stats",
+    "search_biodiversity"
+  ],
+  "israel-nutrition": [
+    "search_foods",
+    "get_nutrition",
+    "get_recipe_ingredients",
+    "compare_foods",
+    "search_by_nutrient"
+  ],
+  "israel-railways": [
+    "search_routes",
+    "list_stations",
+    "get_service_updates"
+  ],
+  "israel-vehicles": [
+    "search_vehicle",
+    "search_by_model",
+    "count_vehicles",
+    "get_test_status",
+    "list_manufacturers"
+  ],
+  "kolzchut": [
+    "kolzchut_search_rights",
+    "kolzchut_get_article",
+    "kolzchut_get_article_sections",
+    "kolzchut_get_article_section",
+    "kolzchut_list_category_members",
+    "kolzchut_list_categories"
+  ],
+  "openbus": [
+    "get_stop_arrivals",
+    "get_ride_performance",
+    "search_routes",
+    "find_stops",
+    "get_route_timetable",
+    "get_vehicle_locations",
+    "list_agencies"
+  ],
+  "supermarket-prices": [
+    "list_chains",
+    "get_chain_files",
+    "search_products",
+    "compare_prices",
+    "get_store_data",
+    "get_promotions",
+    "get_xml_schema_info"
+  ],
+  "tase": [
+    "tase_list_companies",
+    "tase_list_traded_securities",
+    "tase_list_delisted_securities",
+    "tase_list_illiquid_maintenance_suspension",
+    "tase_list_trading_codes",
+    "tase_list_security_types",
+    "tase_list_indices",
+    "tase_list_index_universes",
+    "tase_get_index_components",
+    "tase_get_index_last_rate",
+    "tase_get_index_intraday",
+    "tase_list_index_trading_rate_types",
+    "tase_list_traded_derivatives",
+    "tase_list_derivative_types",
+    "tase_list_derivative_underlying_assets",
+    "tase_list_derivative_underlying_asset_types",
+    "tase_list_funds",
+    "tase_list_fund_types",
+    "tase_list_fund_listing_statuses",
+    "tase_list_fund_mutual_fund_classifications",
+    "tase_list_fund_tracking_classifications",
+    "tase_list_fund_tax_statuses",
+    "tase_list_fund_payment_policies",
+    "tase_list_fund_distribution_commissions",
+    "tase_list_fund_stock_exchanges",
+    "tase_list_fund_currency_exposure_profiles",
+    "tase_list_fund_share_exposure_profiles",
+    "tase_list_fund_underlying_assets",
+    "tase_get_lending_pool_book_offers",
+    "tase_get_lending_pool_deals",
+    "tase_list_lending_pool_types",
+    "tase_get_otc_transactions",
+    "tase_list_upcoming_offerings",
+    "tase_list_open_offerings",
+    "tase_get_trading_schedule",
+    "tase_list_trading_day_types"
+  ],
+  "tel-aviv-city": [
+    "find_parking",
+    "get_bike_stations",
+    "get_road_closures",
+    "find_nearby_services",
+    "get_city_events"
+  ]
+}

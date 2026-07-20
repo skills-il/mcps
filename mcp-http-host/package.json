@@ -1,0 +1,48 @@
+{
+  "name": "@skills-il/mcp-http-host",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Single HTTP host that mounts every skills-il MCP server at POST /mcp/<slug> over Streamable HTTP",
+  "type": "module",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "npm run verify:adapters && tsc",
+    "start": "node dist/index.js",
+    "dev": "tsx watch src/index.ts",
+    "clean": "rm -rf dist",
+    "verify:adapters": "tsx scripts/verify-adapters.ts",
+    "snapshot:tools": "tsx scripts/snapshot-tools.ts",
+    "probe": "tsx scripts/probe.ts"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.28.0",
+    "express": "^5.1.0",
+    "zod": "^3.25.0",
+    "@skills-il/ben-gurion-flights-mcp": "file:../ben-gurion-flights-mcp",
+    "@skills-il/boi-exchange-mcp": "file:../boi-exchange-mcp",
+    "@skills-il/israel-amutot-mcp": "file:../israel-amutot-mcp",
+    "@skills-il/israel-clinical-trials-mcp": "file:../israel-clinical-trials-mcp",
+    "@skills-il/israel-elections-mcp": "file:../israel-elections-mcp",
+    "@skills-il/israel-hiking-mcp": "file:../israel-hiking-mcp",
+    "@skills-il/israel-medical-research-mcp": "file:../israel-medical-research-mcp",
+    "@skills-il/israel-mental-health-mcp": "file:../israel-mental-health-mcp",
+    "@skills-il/israel-nature-mcp": "file:../israel-nature-mcp",
+    "@skills-il/israel-nutrition-mcp": "file:../israel-nutrition-mcp",
+    "@skills-il/israel-railways-mcp": "file:../israel-railways-mcp",
+    "@skills-il/israel-vehicles-mcp": "file:../israel-vehicles-mcp",
+    "@skills-il/kolzchut-mcp": "file:../kolzchut-mcp",
+    "@skills-il/openbus-mcp": "file:../openbus-mcp",
+    "@skills-il/supermarket-prices-mcp": "file:../supermarket-prices-mcp",
+    "@skills-il/tase-mcp": "file:../tase-mcp",
+    "@skills-il/tel-aviv-city-mcp": "file:../tel-aviv-city-mcp"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.10.0",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2"
+  }
+}
