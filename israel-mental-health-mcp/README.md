@@ -48,7 +48,15 @@ claude mcp add israel-mental-health npx -- -y @skills-il/israel-mental-health-mc
 
 All data comes from the Israeli Ministry of Health via the data.gov.il open data portal:
 
-- **Mental Health Clinics**: Full directory of community mental health clinics with HMO affiliation, services, wait times, and contact info
+- **Mental Health Clinics**: Full directory of community mental health clinics with HMO affiliation, services, wait times, and contact info.
+  > **Withdrawn upstream.** As of 2026 the Ministry of Health removed this dataset
+  > from data.gov.il (package `mentalhealthclinics`); both the resource and its
+  > package now return HTTP 403. Its data reflected wait times only as of
+  > Jan-Feb 2018. The clinic-lookup tools (`find_clinics`, `get_clinic_details`,
+  > `find_by_therapy`, `find_by_specialization`) therefore return a clear
+  > explanation pointing to the current official list at
+  > <https://www.gov.il/he/pages/mental-clinics>, and will recover automatically
+  > if the dataset is ever re-published. `get_quality_metrics` is unaffected.
 - **Quality Metrics**: Five quality indicators including treatment plan documentation, discharge summaries, community follow-up appointments, long-term hospitalization plans, and lipid profile measurements
 
 ## Installation

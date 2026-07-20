@@ -27,6 +27,45 @@ export const RESOURCE_IDS = {
 
 export type QualityMetric = keyof typeof RESOURCE_IDS.quality;
 
+/**
+ * Thrown when a data.gov.il resource returns an authorization failure.
+ *
+ * The community mental-health-clinics directory (RESOURCE_IDS.clinics, package
+ * "mentalhealthclinics") was WITHDRAWN by the Ministry of Health: as of 2026
+ * both the resource and its whole package return HTTP 403 "גישה נדחתה" /
+ * Authorization Error. Its waiting-time data was current only as of Jan-Feb
+ * 2018, so it was stale. The five quality-metric resources remain public, so
+ * get_quality_metrics is unaffected.
+ *
+ * Rather than surface a cryptic "403 Forbidden" that reads like a transient
+ * outage or a host bug, the four clinic-lookup tools catch this and explain
+ * the withdrawal, pointing to the current official list. If the Ministry ever
+ * re-publishes the dataset, the same code path recovers automatically.
+ */
+export class ResourceUnavailableError extends Error {
+  constructor(
+    public readonly resource_id: string,
+    message: string,
+  ) {
+    super(message);
+    this.name = "ResourceUnavailableError";
+  }
+}
+
+/** Bilingual, actionable message for the withdrawn clinics directory. */
+export const CLINICS_WITHDRAWN_MESSAGE =
+  "מאגר מרפאות בריאות הנפש בקהילה של משרד הבריאות הוסר מ-data.gov.il ואינו נגיש יותר " +
+  "(הנתונים שהכיל שיקפו זמני המתנה נכון לינואר-פברואר 2018). " +
+  "רשימת המרפאות המעודכנת נמצאת באתר משרד הבריאות (gov.il) בחיפוש \"רשימת מרפאות בריאות הנפש בקהילה\", " +
+  "בכתובת https://www.gov.il/he/pages/mental-clinics . " +
+  "מדדי האיכות של שירותי בריאות הנפש עדיין זמינים דרך הכלי get_quality_metrics.\n" +
+  "The Ministry of Health withdrew the community mental-health-clinics directory from " +
+  "data.gov.il, so clinic lookups are no longer available (its data reflected wait times " +
+  "as of Jan-Feb 2018). Find the current list on the Ministry of Health site (gov.il) by " +
+  "searching \"רשימת מרפאות בריאות הנפש בקהילה\" (currently " +
+  "https://www.gov.il/he/pages/mental-clinics ). Quality metrics are still available via " +
+  "the get_quality_metrics tool.";
+
 export const QUALITY_METRIC_LABELS: Record<QualityMetric, string> = {
   treatment_plan: "תוכנית טיפול מתועדת תוך 5 ימים",
   discharge_summary: "סיכום שחרור מפורט",
@@ -89,6 +128,20 @@ export async function datastoreSearch(
   }
 
   const response = await rateLimitedFetch(url.toString());
+
+  // A 403/401 means data.gov.il revoked public read on this resource. For the
+  // withdrawn clinics directory, explain it; for anything else, still make the
+  // withdrawal explicit rather than a bare status line.
+  if (response.status === 403 || response.status === 401) {
+    if (params.resource_id === RESOURCE_IDS.clinics) {
+      throw new ResourceUnavailableError(params.resource_id, CLINICS_WITHDRAWN_MESSAGE);
+    }
+    throw new ResourceUnavailableError(
+      params.resource_id,
+      `data.gov.il resource ${params.resource_id} is no longer publicly accessible ` +
+        `(HTTP ${response.status}). The dataset may have been withdrawn or restricted.`
+    );
+  }
 
   if (!response.ok) {
     throw new Error(

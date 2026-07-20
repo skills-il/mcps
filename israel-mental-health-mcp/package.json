@@ -1,6 +1,6 @@
 {
   "name": "@skills-il/israel-mental-health-mcp",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "MCP server for Israeli mental health services - clinics, emergency services, and quality metrics from Ministry of Health data",
   "license": "MIT",
   "type": "module",

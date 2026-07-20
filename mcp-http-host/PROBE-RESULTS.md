@@ -25,7 +25,7 @@ Reproduce: `PROBE_BASE=http://localhost:8080 npm run probe`
 | `israel-elections` | yes (4) | yes | `search_settlements` "תל אביב": 231 chars |
 | `israel-hiking` | yes (5) | yes | `search_pois` "מצדה": 3135 chars |
 | `israel-medical-research` | yes (5) | yes | `search_papers` cancer/Technion: 1879 chars |
-| `israel-mental-health` | yes (5) | yes (1 of 5 tools) | `get_quality_metrics`: 38813 chars. **4 of its 5 tools are dead upstream** — see below |
+| `israel-mental-health` | yes (5) | yes (1 of 5 tools) | `get_quality_metrics`: 38813 chars. **4 of its 5 tools are dead upstream (dataset withdrawn); they now return a clear, actionable message** — see below |
 | `israel-nature` | yes (5) | yes | `search_species` Gazella: 866 chars, contains Gazella |
 | `israel-nutrition` | yes (5) | yes | `search_foods` "חומוס": 470 chars |
 | `israel-railways` | yes (3) | yes | `list_stations`: 6688 chars |
@@ -43,7 +43,7 @@ mounted in total.
 
 ## Not papered over
 
-### `israel-mental-health` — 4 of 5 tools are dead at the source
+### `israel-mental-health` — 4 of 5 tools are dead at the source (dataset withdrawn)
 
 `find_clinics`, `get_clinic_details`, `find_by_therapy`, and
 `find_by_specialization` all read one data.gov.il resource:
@@ -52,24 +52,40 @@ mounted in total.
 f7a7b061-db5b-4e19-b1bf-2d7525af52ca   (mental health clinic directory)
 ```
 
-Public read permission on that resource has been **revoked upstream**. This is
-reproducible with plain `curl`, entirely outside this host:
+The Ministry of Health **withdrew the whole dataset** from data.gov.il. This is
+not a per-resource permission tweak — the entire parent package is gone. Both
+the resource and the package return `403 Authorization Error`, reproducible with
+plain `curl`, entirely outside this host:
 
 ```
-$ curl -H 'Accept: application/json' -H 'User-Agent: Mozilla/5.0' \
-    'https://data.gov.il/api/3/action/datastore_search?resource_id=f7a7b061-db5b-4e19-b1bf-2d7525af52ca&limit=2'
-{"error": {"__type": "Authorization Error",
-           "message": "גישה נדחתה: למשתמש אין הרשאה לקרוא..."}}
+$ curl -sG 'https://data.gov.il/api/3/action/package_show' --data-urlencode id=mentalhealthclinics
+{"success": false, "error": {"__type": "Authorization Error",
+   "message": "גישה נדחתה: ... החבילה 2082d3d7-6e24-432e-8db1-3792c3116e7b"}}
 ```
 
-The other five resource ids that same package uses (the quality-metric
-datasets) still return 200 with records, which is why `get_quality_metrics`
-works and returns 38 KB of real data. So the slug is genuinely reachable and
-genuinely serving data — but **4/5 of its surface is broken and will stay
-broken until the dataset is re-published or the package is repointed.**
+There is **no public replacement resource id**: a data.gov.il catalog search for
+any clinics-directory dataset with the same fields returns nothing, `govil.ai`
+only mirrors the (still-public) quality-metric datasets, and the current official
+source is a Cloudflare-gated gov.il DynamicCollector with a different API. The
+dataset's wait-time data was current only as of Jan-Feb 2018, so it was stale.
 
-Not a host bug, and per scope not fixed here. Fixing it means finding the
-current resource id and updating `israel-mental-health-mcp/src/client.ts`.
+**What was fixed:** rather than surface a cryptic `403 Forbidden` that reads like
+a host bug or transient outage, `israel-mental-health-mcp` (bumped to 1.0.2) now
+catches the authorization failure on the clinics resource and returns a clear,
+bilingual, actionable message naming the withdrawal and pointing to the current
+Ministry of Health list. If the Ministry ever re-publishes, the same code path
+recovers automatically. Verified over HTTP through the host:
+
+```
+find_clinics({city:"תל אביב"})  ->  isError: true
+"...מאגר מרפאות בריאות הנפש בקהילה ... הוסר מ-data.gov.il ... רשימת המרפאות
+ המעודכנת ... https://www.gov.il/he/pages/mental-clinics ...
+ The Ministry of Health withdrew the community mental-health-clinics directory
+ from data.gov.il ... Quality metrics are still available via get_quality_metrics."
+```
+
+`get_quality_metrics` reads different, still-public resources and returns 38 KB
+of real data, so the slug remains genuinely useful for its one working surface.
 
 ### `tase` — blocked on a credential, transport verified
 
