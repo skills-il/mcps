@@ -1,6 +1,6 @@
 {
   "name": "@skills-il/supermarket-prices-mcp",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "MCP server for Israeli supermarket price data from the government-mandated Price Transparency Law",
   "type": "module",
   "bin": {
@@ -10,7 +10,7 @@
     "build": "tsc",
     "start": "node dist/index.js",
     "dev": "tsc --watch",
-    "test": "npm run build && node test/gzip.test.mjs",
+    "test": "npm run build && node test/gzip.test.mjs && node test/url-resolution.test.mjs",
     "prepublishOnly": "npm run build"
   },
   "keywords": [

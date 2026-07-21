@@ -15,6 +15,7 @@ import {
 
 const ALLOWED_DOMAINS = [
   'prices.shufersal.co.il',
+  'pricesprodpublic.blob.core.windows.net',   // Shufersal serves price files from this Azure CDN
   'publishedprices.co.il',
   'url.retail.publishedprices.co.il',
   'prices.mega.co.il',
@@ -22,7 +23,7 @@ const ALLOWED_DOMAINS = [
   'prices.carrefour.co.il',
 ];
 
-function validateUrl(url: string): void {
+export function validateUrl(url: string): void {
   const parsed = new URL(url);
   if (parsed.protocol !== 'https:' && parsed.protocol !== 'http:') {
     throw new Error(`Only HTTP(S) URLs are allowed, got: ${parsed.protocol}`);
@@ -31,6 +32,23 @@ function validateUrl(url: string): void {
   if (!isAllowed) {
     throw new Error(`URL domain not in allowlist: ${parsed.hostname}. Allowed domains: ${ALLOWED_DOMAINS.join(', ')}`);
   }
+}
+
+/**
+ * Decode the HTML entities that appear in href attributes scraped from the
+ * Shufersal listing page. The Azure blob download URLs carry a SAS token whose
+ * `&` separators are HTML-escaped to `&amp;` in the markup; left literal they
+ * corrupt the SAS signature and Azure returns 404. Decoding restores the raw
+ * query string so the signed URL validates.
+ */
+export function decodeHtmlEntities(s: string): string {
+  return s
+    .replace(/&amp;/g, "&")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&quot;/g, '"')
+    .replace(/&#0?39;/g, "'")
+    .replace(/&#x27;/gi, "'");
 }
 
 // ---------------------------------------------------------------------------
@@ -388,7 +406,7 @@ interface ShufersalFileEntry {
  * Parse Shufersal's file listing page to extract download links.
  * The page uses a table with download links in specific columns.
  */
-function parseShufersalFileList(html: string): ShufersalFileEntry[] {
+export function parseShufersalFileList(html: string): ShufersalFileEntry[] {
   const entries: ShufersalFileEntry[] = [];
 
   // Look for direct file download links
@@ -401,12 +419,12 @@ function parseShufersalFileList(html: string): ShufersalFileEntry[] {
     const urlMatch = link.match(/href="([^"]*)"/i);
     if (!urlMatch) continue;
 
-    let fileUrl = urlMatch[1];
+    let fileUrl = decodeHtmlEntities(urlMatch[1]);
     if (fileUrl.startsWith("/")) {
       fileUrl = `https://prices.shufersal.co.il${fileUrl}`;
     }
 
-    const nameMatch = fileUrl.match(/([^/]+\.(?:gz|xml))$/i);
+    const nameMatch = fileUrl.match(/([^/]+\.(?:gz|xml))(?:\?|$)/i);
     const name = nameMatch ? nameMatch[1] : fileUrl;
 
     // Try to extract date from filename (format: YYYYMMDD)
@@ -429,7 +447,7 @@ function parseShufersalFileList(html: string): ShufersalFileEntry[] {
     const texts = cells.map((c) => stripTags(c).trim());
 
     if (texts.length >= 2) {
-      let fileUrl = linkMatch[1];
+      let fileUrl = decodeHtmlEntities(linkMatch[1]);
       if (fileUrl.startsWith("/")) {
         fileUrl = `https://prices.shufersal.co.il${fileUrl}`;
       }
