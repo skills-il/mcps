@@ -10,6 +10,8 @@
  * but not directly accessed (they require FTP protocol support).
  */
 
+import { gunzipSync } from "node:zlib";
+
 const REQUEST_INTERVAL_MS = 1500;
 const REQUEST_TIMEOUT_MS = 30_000;
 const MAX_RETRIES = 2;
@@ -82,6 +84,28 @@ export async function fetchWithRateLimit(
   throw lastError ?? new Error("Request failed after retries");
 }
 
+/** Read a response body, transparently unzipping .gz price files.
+ *  The Israeli price feeds serve gzip as the FILE FORMAT (not Content-Encoding),
+ *  so fetch() hands back raw gzip bytes; detect the magic bytes and inflate. */
+async function decodeBody(response: Response, what: string): Promise<string> {
+  const declared = parseInt(response.headers.get("content-length") || "0", 10);
+  if (declared > MAX_RESPONSE_SIZE) {
+    throw new Error(`Response too large: ${declared} bytes exceeds ${MAX_RESPONSE_SIZE} byte limit`);
+  }
+  let buffer = Buffer.from(await response.arrayBuffer());
+  if (buffer.byteLength > MAX_RESPONSE_SIZE) {
+    throw new Error(`Response too large: ${buffer.byteLength} bytes exceeds ${MAX_RESPONSE_SIZE} byte limit`);
+  }
+  // gzip magic bytes 0x1f 0x8b -> inflate before decoding (zip-bomb guard re-checks size)
+  if (buffer.length >= 2 && buffer[0] === 0x1f && buffer[1] === 0x8b) {
+    buffer = gunzipSync(buffer);
+    if (buffer.byteLength > MAX_RESPONSE_SIZE) {
+      throw new Error(`Decompressed ${what} too large: ${buffer.byteLength} bytes exceeds ${MAX_RESPONSE_SIZE} byte limit`);
+    }
+  }
+  return new TextDecoder().decode(buffer);
+}
+
 export async function fetchText(url: string): Promise<string> {
   const response = await fetchWithRateLimit(url);
   if (!response.ok) {
@@ -89,16 +113,7 @@ export async function fetchText(url: string): Promise<string> {
       `HTTP ${response.status} fetching ${url}: ${response.statusText}`
     );
   }
-  const contentLength = parseInt(response.headers.get('content-length') || '0', 10);
-  if (contentLength > MAX_RESPONSE_SIZE) {
-    throw new Error(`Response too large: ${contentLength} bytes exceeds ${MAX_RESPONSE_SIZE} byte limit`);
-  }
-  const buffer = await response.arrayBuffer();
-  if (buffer.byteLength > MAX_RESPONSE_SIZE) {
-    throw new Error(`Response too large: ${buffer.byteLength} bytes exceeds ${MAX_RESPONSE_SIZE} byte limit`);
-  }
-  const text = new TextDecoder().decode(buffer);
-  return text;
+  return decodeBody(response, url);
 }
 
 export async function fetchXml(url: string): Promise<string> {
@@ -112,16 +127,7 @@ export async function fetchXml(url: string): Promise<string> {
       `HTTP ${response.status} fetching XML from ${url}: ${response.statusText}`
     );
   }
-  const contentLength = parseInt(response.headers.get('content-length') || '0', 10);
-  if (contentLength > MAX_RESPONSE_SIZE) {
-    throw new Error(`Response too large: ${contentLength} bytes exceeds ${MAX_RESPONSE_SIZE} byte limit`);
-  }
-  const buffer = await response.arrayBuffer();
-  if (buffer.byteLength > MAX_RESPONSE_SIZE) {
-    throw new Error(`Response too large: ${buffer.byteLength} bytes exceeds ${MAX_RESPONSE_SIZE} byte limit`);
-  }
-  const text = new TextDecoder().decode(buffer);
-  return text;
+  return decodeBody(response, url);
 }
 
 /**
